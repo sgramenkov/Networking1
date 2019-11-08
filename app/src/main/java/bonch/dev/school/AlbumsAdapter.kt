@@ -37,7 +37,7 @@ class AlbumsAdapter(val list: List<Album>, val context: Context/*, val listener:
 
     override fun onBindViewHolder(holder: AlbumsHolder, position: Int) {
         val albums = albumList[position]
-        holder.bind(albums,position/*,listener*/)
+        holder.bind(albums, position/*,listener*/)
 
     }
 
@@ -54,22 +54,21 @@ class AlbumsAdapter(val list: List<Album>, val context: Context/*, val listener:
         )/*= with(itemView)*/ {
             albumId.text = albums.id.toString()
             AlbumsTextView.text = "\ntitle: " + albums.title
-           /* this.setOnClickListener(){
-                listener(position)
-            }*/
-            itemView.setOnClickListener(){
+            /* this.setOnClickListener(){
+                 listener(position)
+             }*/
+            itemView.setOnClickListener() {
                 test(position)
             }
 
         }
     }
-    fun test(position: Int){
+
+    fun test(position: Int) {
         val service = RetrofitFactory().makeRetrofitService()
         CoroutineScope(Dispatchers.Main).launch {
-            //val bundle = Bundle()
-            //val pos = bundle.getInt("pos")
             notifyDataSetChanged()
-            Log.e("E","$position")
+            Log.e("E", "$position")
             val responsedel = service.DeleteInAlbumsActivity(position)
             try {
                 withContext(Dispatchers.Main) {
@@ -79,7 +78,7 @@ class AlbumsAdapter(val list: List<Album>, val context: Context/*, val listener:
                         notifyDataSetChanged()
                         Toast.makeText(
                             context,
-                            "Соединение выполнено",
+                            "Пост удален",
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -97,7 +96,5 @@ class AlbumsAdapter(val list: List<Album>, val context: Context/*, val listener:
             }
         }
 
-        //val bundle=Bundle()
-        //bundle.putInt("pos",position)
     }
 }

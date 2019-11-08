@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import bonch.dev.school.models.users
+import bonch.dev.school.models.Users
 
-class UsersAdapter(val list: List<users>,val context: Context): RecyclerView.Adapter<UsersAdapter.UsersHolder>() {
+class UsersAdapter(val list: List<Users>,val context: Context): RecyclerView.Adapter<UsersAdapter.UsersHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersHolder {
         return UsersHolder(LayoutInflater.from(context).inflate(R.layout.users_item,parent,false))
     }
@@ -24,8 +24,8 @@ class UsersAdapter(val list: List<users>,val context: Context): RecyclerView.Ada
 
     inner class UsersHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         private val usersTextView=itemView.findViewById<TextView>(R.id.users_text_view)
-        fun bind(users: users){
-            usersTextView.text="id: " + users.id.toString() + "\nname: " + users.name + "\nusername: "+ users.username + "\nemail: " + users.email + "\naddress:\n   street: " + users.address.street + "\n  suite: " + users.address.suite + "\n    city: " + users.address.city + "\n    zipcode: " + users.address.zipcode + "\ngeo\n   lat: " + users.address.geo.lat + "\n  lng: " + users.address.geo.lng
+        fun bind(users: Users){
+            usersTextView.text="id: " + users.id.toString() + "\nname: " + users.name + "\nusername: "+ users.username + "\nemail: " + users.email + "\naddress: " + "\n   street: " + users.address.street + "\n   suite: " + users.address.suite + "\n   city: " + users.address.city + "\n   zipcode: " + users.address.zipcode + "\ngeo:\n   lat: " + users.address.geo.lat + "\n   lng: " + users.address.geo.lng
         }
     }
 }

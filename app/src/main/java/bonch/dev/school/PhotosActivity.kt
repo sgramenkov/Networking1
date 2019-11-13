@@ -58,18 +58,27 @@ class PhotosActivity : AppCompatActivity() {
                     Log.e("Retrofit", "${err.printStackTrace()}")
                 }
             }
+        } else {
+            val list: List<Photos> = getData()
+            if (list.isEmpty()) {
+                Toast.makeText(
+                    applicationContext,
+                    "You have to connect to Internet",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                recycler.adapter = PhotosAdapter(list, this@PhotosActivity)
+            }
         }
-        else{
-            val list:List<Photos> = getData()
-            recycler.adapter=PhotosAdapter(list, this@PhotosActivity)
-        }
-        }
+    }
+
     private fun getData(): List<Photos> {
         var list: ArrayList<Photos> = arrayListOf()
         val realmResult = realm.where(Photos::class.java).findAll()
         if (realmResult != null) {
-            for(i in realmResult.indices){
-                val tempDataPhoto = Photos(realmResult[i]!!.id,realmResult[i]!!.albumId!!, realmResult[i]!!.url!!)
+            for (i in realmResult.indices) {
+                val tempDataPhoto =
+                    Photos(realmResult[i]!!.id, realmResult[i]!!.albumId!!, realmResult[i]!!.url!!)
                 list.add(tempDataPhoto)
             }
         } else {
@@ -77,13 +86,14 @@ class PhotosActivity : AppCompatActivity() {
         }
         return list
     }
+
     private fun saveData(list: List<Photos>) {
         val arrList: ArrayList<Photos> = arrayListOf()
         if (list.isNotEmpty()) {
 //сначала все упакуем в один массив, а потом одной транзакцией отправим в БД
             list.forEach {
                 val photo = Photos()
-                photo.id=it.id
+                photo.id = it.id
                 photo.albumId = it.albumId
                 photo.url = it.url
                 //photo.img = Glide.with(this).load(it.url)
@@ -104,6 +114,7 @@ class PhotosActivity : AppCompatActivity() {
         super.onDestroy()
         realm.close()
     }
+
     @Suppress("DEPRECATION")
     fun isOnline(context: Context): Boolean {
         val connectivityManager =
@@ -111,5 +122,5 @@ class PhotosActivity : AppCompatActivity() {
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
     }
-    }
+}
 
